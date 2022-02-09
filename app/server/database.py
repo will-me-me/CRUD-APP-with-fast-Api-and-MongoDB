@@ -61,5 +61,5 @@ async def update_student(id:str, data:dict):
 async def delete_student(id:str):
     student= await student_collection.find_one({'_id':ObjectId(id)})
     if student:
-        await student_collection.delete_one({'_id': ObjectId})
+        await student_collection.delete_one({'_id': ObjectId(id)})
         return True
