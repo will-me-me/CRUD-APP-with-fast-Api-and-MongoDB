@@ -1,4 +1,5 @@
 from ast import Return
+from asyncio.unix_events import _UnixSelectorEventLoop
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
 
@@ -42,3 +43,20 @@ async def get_student_data(id):
     if student:
         return ResponsModel(student, 'Student data retrived succesfully')
     return ErrorResponseModel('An error occured', 404, 'Student does not exist')
+
+# Update Student
+@router.put('/id', response_description='Updates the student with a given id')
+async def update_student_data(id:str, req:UpdateStudentModel=Body(...)):
+    req = {k: v for k, v in req.dict().items() if v is not None}
+    updated_student=await update_student(id, req)
+    if updated_student:
+        return ResponsModel(
+            'Student with ID: {} name update is successful'.format(id),
+            'Student Updated suceesfully'
+
+        )
+    return ErrorResponseModel(
+        'An error occured',
+        404,
+        "There was an error updating the student data",
+    )
