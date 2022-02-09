@@ -26,7 +26,7 @@ router = APIRouter()
 async def add_student_data(student:StudentSchema=Body(...)):
     student=jsonable_encoder(student)
     new_student=await add_student(student)
-    return ResponsModel(new_student, 'Student addes successfully')
+    return ResponsModel(new_student, 'Student added successfully')
 
 #get all added student
 @router.get('/', response_description='students retrived')
