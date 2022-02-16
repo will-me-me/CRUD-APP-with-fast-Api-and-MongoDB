@@ -40,7 +40,9 @@ async def update_admin(id:str, data:dict):
 # check user
 
 async def check_user(data: UserLoginSchema):
-    for user in admin_collection:
+    admins=[]
+    async for user in admin_collection.find_one():
+        admins.append(user)
         if user.email==data.email and user.password==data.password:
             return True
         return False 

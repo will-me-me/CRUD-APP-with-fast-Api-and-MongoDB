@@ -10,7 +10,7 @@ from decouple import config
 JWT_SECRET= config('secret')
 JWT_ALGORTHM= config('algorithm')
 
-def token_responses():
+def token_responses(token:str):
     return{
         'access_token':token
     }
@@ -21,7 +21,7 @@ def sign_jwt(admin_id:str)->Dict[str,str]:
         'epiries':time.time() + 600
     }
     token = jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGORTHM)
-    return token_responses()
+    return token_responses(token)
 
 def decodeJWT(token: str)->dict:
     try:
