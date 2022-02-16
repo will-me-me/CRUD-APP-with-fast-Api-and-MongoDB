@@ -8,6 +8,7 @@ client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
 database = client.students
 
 student_collection = database.get_collection("students_collection")
+admin_collection=database.get_collection('admin_collection')
 
 
 #helpers
