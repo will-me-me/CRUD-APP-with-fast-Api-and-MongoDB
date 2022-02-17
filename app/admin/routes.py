@@ -1,6 +1,6 @@
 from ast import Return
 from asyncio.unix_events import _UnixSelectorEventLoop
-from fastapi import APIRouter, Body
+from fastapi import APIRouter, Body, Depends
 from fastapi.encoders import jsonable_encoder
 
 
@@ -18,6 +18,7 @@ from app.admin.schema import(
     UserLoginSchema
     
 )
+from app.auth_bearer import JWTBearer
 from app.server.models.student import ResponsModel
 
 router = APIRouter()
@@ -31,9 +32,9 @@ async def admin_login(admin:UserLoginSchema = Body(...)):
 
 
 # add admin
-@router.post('/add', response_description='admin added into db')
+@router.post('/add', response_description='admin added into db', dependencies=[Depends(JWTBearer())])
 async def create_admin(admin: Admin =Body(...)):
     admin=jsonable_encoder(admin)
     new_admin=await add_new_admin(admin)
-    return sign_jwt(ResponsModel(new_admin, 'Admin added successfully'))
+    return ResponsModel(new_admin, 'Admin added successfully')
     # return {ResponsModel(new_admin, 'Admin added succesfully'),sign_jwt(admin.email)}

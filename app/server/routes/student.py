@@ -23,7 +23,7 @@ from app.server.models.student import(
 router = APIRouter()
 
 #add student
-@router.post('/', dependencies=[Depends(JWTBearer())],response_description='student data dded into the database')
+@router.post('/',response_description='student data dded into the database')
 async def add_student_data(student:StudentSchema=Body(...)):
     student=jsonable_encoder(student)
     new_student=await add_student(student)
@@ -38,7 +38,7 @@ async def get_students():
     return ResponsModel(students, 'Empty list Returned')
 
 # get student by id
-@router.get('/{id}',dependencies=[Depends(JWTBearer())], response_description='student with a given id is returned')
+@router.get('/{id}', response_description='student with a given id is returned')
 async def get_student_data(id):
     student = await retrive_student(id)
     if student:
